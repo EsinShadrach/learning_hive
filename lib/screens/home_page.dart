@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     _myBox.put(
       1,
       User(
-        name: "Rafe",
+        name: "Esin",
         age: 18,
       ),
     );
@@ -35,31 +35,53 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.blue,
-              ),
-              onPressed: _writeData,
-              child: const Text("Write"),
+            ValueListenableBuilder(
+              valueListenable: _myBox.listenable(),
+              builder: (context, Box<User> box, widget) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: box.length,
+                  itemBuilder: (context, index) {
+                    final user = box.getAt(index);
+                    return ListTile(
+                      title: Text(user!.name),
+                      subtitle: Text(user.age.toString()),
+                    );
+                  },
+                );
+              },
             ),
-            const SizedBox(width: 10),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: _readData,
-              child: const Text("Read"),
-            ),
-            const SizedBox(width: 10),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              onPressed: _deleteData,
-              child: const Text("Delete"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: _writeData,
+                  child: const Text("Write"),
+                ),
+                const SizedBox(width: 10),
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  onPressed: _readData,
+                  child: const Text("Read"),
+                ),
+                const SizedBox(width: 10),
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  onPressed: _deleteData,
+                  child: const Text("Delete"),
+                ),
+              ],
             ),
           ],
         ),
